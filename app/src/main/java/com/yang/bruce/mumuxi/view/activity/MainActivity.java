@@ -60,7 +60,6 @@ public class MainActivity extends BaseActivity {
         mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
         setSupportActionBar(toolbar);
 
-
         //侧滑栏 以及 左上角图标
         final DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.rootview);
         final ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,

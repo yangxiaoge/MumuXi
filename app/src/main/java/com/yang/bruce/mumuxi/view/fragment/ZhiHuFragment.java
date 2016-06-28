@@ -121,6 +121,7 @@ public class ZhiHuFragment extends BaseFragment {
         zhuanLanAdapter = new ZhuanLanAdapter(getActivity());
         doWithZhuanLan(zhuanLanAdapter);
         mRecyclerView.setRefreshListener(this);
+        mRecyclerView.setRefreshing(true); //刷新动画
         onRefresh();
 
     }
