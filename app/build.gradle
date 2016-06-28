@@ -46,4 +46,7 @@ dependencies {
 
     //glide
     compile 'com.github.bumptech.glide:glide:3.7.0'
+
+    //https://github.com/chrisbanes/PhotoView ( PhotoView是一个开源的图片查看库，可以实现图片的浏览，手势放大缩小等操作，)
+    compile 'com.commit451:PhotoView:1.2.4'
 }

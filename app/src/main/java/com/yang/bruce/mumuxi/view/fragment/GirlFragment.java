@@ -18,7 +18,7 @@ import com.yang.bruce.mumuxi.R;
 import com.yang.bruce.mumuxi.adapter.GirlAdapter;
 import com.yang.bruce.mumuxi.base.BaseFragment;
 import com.yang.bruce.mumuxi.bean.Item;
-import com.yang.bruce.mumuxi.cache.MeiziDataCache;
+import com.yang.bruce.mumuxi.cache.MeiziData;
 import com.yang.bruce.mumuxi.view.activity.GirlActivity;
 
 import java.util.List;
@@ -47,7 +47,7 @@ public class GirlFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_zhuanlan_layout, container, false);
+        View view = inflater.inflate(R.layout.fragment_girl_layout, container, false);
         initViews(view);
         return view;
     }
@@ -65,7 +65,7 @@ public class GirlFragment extends BaseFragment {
         doWithGirl(girlAdapter);
 
         mRecyclerView.setRefreshListener(this);
-        // load data while init
+        // load data while init , 初始化是加载数据
         getGirlData(page);
     }
 
@@ -76,11 +76,12 @@ public class GirlFragment extends BaseFragment {
      */
     private void getGirlData(int page) {
         unsubscribe();
-        subscription = MeiziDataCache.getInstance()
+        subscription = MeiziData.getInstance()
+                // 获取数据
                 .subscribeData(new Subscriber<List<Item>>() {
                     @Override
                     public void onCompleted() {
-                        Log.e(TAG, "onCompleted");
+                        Log.d(TAG, "onCompleted");
                     }
 
                     @Override
@@ -90,6 +91,7 @@ public class GirlFragment extends BaseFragment {
 
                     @Override
                     public void onNext(List<Item> items) {
+                        Log.d(TAG, "OnNext");
                         girlAdapter.addAll(items);
                     }
                 }, page);
@@ -101,10 +103,10 @@ public class GirlFragment extends BaseFragment {
         adapter.setMore(R.layout.load_more_layout, this);
         adapter.setNoMore(R.layout.no_more_layout);
         adapter.setError(R.layout.error_layout);
+        // item点击跳转GirlActivity图片详情页
         adapter.setOnItemClickListener(new RecyclerArrayAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-
                 Intent intent = new Intent(getActivity(), GirlActivity.class);
                 intent.putExtra("desc", adapter.getItem(position).description);
                 intent.putExtra("url", adapter.getItem(position).imageUrl);
@@ -121,7 +123,7 @@ public class GirlFragment extends BaseFragment {
             public void run() {
                 // before refresh clean cache
                 girlAdapter.clear();
-                MeiziDataCache.getInstance().clearMemoryAndDiskCache();
+                MeiziData.getInstance().clearMemoryAndDiskCache();
                 getGirlData(page);
 
             }
@@ -134,7 +136,7 @@ public class GirlFragment extends BaseFragment {
             @Override
             public void run() {
                 // before load more ,clean cache
-                MeiziDataCache.getInstance().clearMemoryAndDiskCache();
+                MeiziData.getInstance().clearMemoryAndDiskCache();
                 page++;
                 getGirlData(page);
             }

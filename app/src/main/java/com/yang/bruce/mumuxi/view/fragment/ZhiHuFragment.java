@@ -131,17 +131,17 @@ public class ZhiHuFragment extends BaseFragment {
                 .subscribe(new Subscriber<ZhuanLan>() {
                     @Override
                     public void onCompleted() {
-                        Log.e(TAG, "onCompleted");
+                        Log.d(TAG, "onCompleted");
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e(TAG, e.getMessage());
+                        Log.e(TAG, e.getMessage() + "\t" + e.getLocalizedMessage());
                     }
 
                     @Override
                     public void onNext(ZhuanLan zhuanLan) {
-                        Log.e(TAG, "OnNext");
+                        Log.d(TAG, "OnNext");
                         zhuanLanAdapter.add(zhuanLan);
                     }
                 });

@@ -20,23 +20,27 @@ import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import rx.subjects.BehaviorSubject;
 
-public class MeiziDataCache {
+public class MeiziData {
     private static final String TAG = "MeiziData";
-    private static MeiziDataCache instance;
+    private static MeiziData instance;
     // BehaviorSubject 只打印出最后一个数据
     BehaviorSubject<List<Item>> cache;
-    private MeiziDataCache() {
+
+    private MeiziData() {
     }
+
     // 单例
-    public static MeiziDataCache getInstance() {
+    public static MeiziData getInstance() {
         if (instance == null) {
-            instance = new MeiziDataCache();
+            instance = new MeiziData();
         }
         return instance;
     }
+
     // 从网络加载数据
+    // 例如: http://gank.io/api/data/福利/10/1
     public void loadFromNetwork(final int page) {
-        Log.e(TAG,page + "");
+        Log.e(TAG, page + "");
         NetWorkBean.getGankApi()
                 .getBeauties(10, page)
                 .subscribeOn(Schedulers.io())
@@ -44,6 +48,7 @@ public class MeiziDataCache {
                 .map(new Func1<Girl, List<Item>>() {
                     @Override
                     public List<Item> call(Girl girl) {
+                        // 获取 GirlResult 对象集合
                         List<Girl.GirlResult> gankBeauties = girl.girlResults;
                         List<Item> items = new ArrayList<>(gankBeauties.size());
                         for (Girl.GirlResult gankBeauty : gankBeauties) {
@@ -52,6 +57,7 @@ public class MeiziDataCache {
                             item.imageUrl = gankBeauty.url;
                             items.add(item);
                         }
+                        // 将Girl.GirlResult对象赋给Item对象后返回List<Item>
                         return items;
                     }
                 })
@@ -59,15 +65,16 @@ public class MeiziDataCache {
                 .doOnNext(new Action1<List<Item>>() {
                     @Override
                     public void call(List<Item> items) {
-                        // 写入缓存
-                        Log.e("MeiziDataCache","data write in disk cache");
-                        Database.getInstance().writeItems(items);
+
+                        Log.e("MeiziData", "data write in disk cache");
+                        // 写入缓存(即写入数据库文件)
+                        MeiziDatabase.getInstance().writeItems(items);
                     }
                 })
                 .subscribe(new Action1<List<Item>>() {
                     @Override
                     public void call(List<Item> items) {
-                        Log.e("MeiziDataCache","data pass to subscribe");
+                        Log.e("MeiziData", "data pass to subscribe");
                         cache.onNext(items);// 自动回调 cache.onNext(items);
                     }
                 }, new Action1<Throwable>() {
@@ -77,21 +84,24 @@ public class MeiziDataCache {
                     }
                 });
     }
-    // 获取数据
-    public Subscription subscribeData(@NonNull Observer<List<Item>> observer, final int number) {
 
-        if (cache == null ) {
+    // 获取数据
+    public Subscription subscribeData(@NonNull Observer<List<Item>> observer, final int page) {
+
+        if (cache == null) {
             cache = BehaviorSubject.create();
             Observable.create(new Observable.OnSubscribe<List<Item>>() {
                 @Override
                 public void call(Subscriber<? super List<Item>> subscriber) {
-                    List<Item> items = Database.getInstance().readItems();
+                    List<Item> items = MeiziDatabase.getInstance().readItems();
 
                     if (items == null) {
-                        Log.e("MeiziDataCache","no data in disk and load data from net");
-                        loadFromNetwork(number);
+                        Log.e("MeiziData", "no data in disk and load data from net");
+                        // 加载网络数据
+                        loadFromNetwork(page);
                     } else {
-                        Log.e("MeiziDataCache","disk has data");
+                        Log.e("MeiziData", "disk has data");
+                        // 使用缓存数据
                         subscriber.onNext(items);
                     }
                 }
@@ -99,19 +109,20 @@ public class MeiziDataCache {
                     .subscribeOn(Schedulers.io())
                     .subscribe(cache);// 观察者与被观察着通过订阅联系起来
         } else {
-            Log.e("MeiziDataCache","memory has data just read from memory");
+            Log.e("MeiziData", "memory has data just read from memory");
         }
         return cache.observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(observer);
+                .subscribe(observer);
     }
 
     public void clearMemoryCache() {
         cache = null;
     }
-    // 内存和磁盘缓存
+
+    // 清除内存和磁盘缓存
     public void clearMemoryAndDiskCache() {
         clearMemoryCache();
         // 删除磁盘缓存
-        Database.getInstance().delete();
+        MeiziDatabase.getInstance().delete();
     }
 }

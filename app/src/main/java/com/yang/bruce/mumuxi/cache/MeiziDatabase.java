@@ -14,26 +14,30 @@ import java.io.Reader;
 import java.io.Writer;
 import java.util.List;
 
-public class Database {
+/**
+ * MeiziDatabase类其实不是数据库存储数据---> 只是普通文件存储数据(取名为数据库文件而已)
+ */
+public class MeiziDatabase {
     private static String DATA_FILE_NAME = "data.db";
 
-    private static Database INSTANCE;
+    private static MeiziDatabase INSTANCE;
     File dataFile = new File(MumuXiApp.getInstance().getFilesDir(), DATA_FILE_NAME);
     Gson gson = new Gson();
 
-    private Database() {
+    private MeiziDatabase() {
 
     }
 
-    public static Database getInstance() {
+    public static MeiziDatabase getInstance() {
         if (INSTANCE == null) {
-            INSTANCE = new Database();
+            INSTANCE = new MeiziDatabase();
 
         }
 
         return INSTANCE;
     }
 
+    // 读取缓存数据
     public List<Item> readItems() {
         // Hard code adding some delay, to distinguish reading from memory and reading disk clearly
         try {
@@ -43,17 +47,19 @@ public class Database {
         }
 
         try {
-
             Reader reader = new FileReader(dataFile);
             return gson.fromJson(reader, new TypeToken<List<Item>>() {
             }.getType());
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             return null;
         }
     }
 
+    // 将妹子数据写入缓存
     public void writeItems(List<Item> items) {
+        // 将集合转成 json 字符串
         String json = gson.toJson(items);
         try {
             if (!dataFile.exists()) {

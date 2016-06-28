@@ -80,6 +80,7 @@ public class MainActivity extends BaseActivity {
                 return titles.length;
             }
 
+            //TabLayout titile
             @Override
             public CharSequence getPageTitle(int position) {
                 switch (position) {
