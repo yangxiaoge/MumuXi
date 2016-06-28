@@ -11,16 +11,24 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.jude.easyrecyclerview.EasyRecyclerView;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
+import com.jude.easyrecyclerview.decoration.SpaceDecoration;
+import com.nispok.snackbar.Snackbar;
+import com.nispok.snackbar.SnackbarManager;
+import com.nispok.snackbar.listeners.ActionClickListener;
 import com.yang.bruce.mumuxi.R;
 import com.yang.bruce.mumuxi.adapter.GirlAdapter;
 import com.yang.bruce.mumuxi.base.BaseFragment;
 import com.yang.bruce.mumuxi.bean.Item;
 import com.yang.bruce.mumuxi.cache.MeiziData;
+import com.yang.bruce.mumuxi.util.Dp2PxUtil;
+import com.yang.bruce.mumuxi.util.NetWorkUtil;
 import com.yang.bruce.mumuxi.view.activity.GirlActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import rx.Subscriber;
@@ -43,13 +51,34 @@ public class GirlFragment extends BaseFragment {
     private int page = 1; // 默认第一页
     private Handler handler = new Handler();
 
+    protected List<Item> isNoItem = new ArrayList<>(); // 判断妹子数据有无?
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_girl_layout, container, false);
         initViews(view);
+        // 网络是否连接
+        hasNetWork();
+
         return view;
+    }
+
+    // 网络是否连接
+    private void hasNetWork() {
+        if (!NetWorkUtil.isNetworkConnected(getActivity())) {
+            SnackbarManager.show(
+                    Snackbar.with(getActivity()) // context
+                            .text("网络未连接￣へ￣") // text to display
+                            .actionLabel("重试?") // action button label
+                            .actionListener(new ActionClickListener() { // action button's ActionClickListener
+                                @Override
+                                public void onActionClicked(Snackbar snackbar) {
+                                    hasNetWork();
+                                }
+                            }), getActivity());
+
+        }
     }
 
     // initViews
@@ -64,6 +93,15 @@ public class GirlFragment extends BaseFragment {
         girlAdapter = new GirlAdapter(getActivity());
         doWithGirl(girlAdapter);
 
+        // for itemDecoration start (装饰而已,可以不要)
+        SpaceDecoration itemDecoration = new SpaceDecoration((int) Dp2PxUtil.convertDp2Pixel(8, getActivity()));
+        itemDecoration.setPaddingEdgeSide(true);
+        itemDecoration.setPaddingStart(true);
+        itemDecoration.setPaddingHeaderFooter(false);
+        mRecyclerView.addItemDecoration(itemDecoration);
+        // for itemDecoration end
+
+        // RecyclerView 刷新监听
         mRecyclerView.setRefreshListener(this);
         // load data while init , 初始化是加载数据
         getGirlData(page);
@@ -92,12 +130,14 @@ public class GirlFragment extends BaseFragment {
                     @Override
                     public void onNext(List<Item> items) {
                         Log.d(TAG, "OnNext");
+                        isNoItem.addAll(items);
                         girlAdapter.addAll(items);
                     }
-                }, page);
+                }, page); // page是传进来的页码
+
     }
 
-    // can intent to GirlActivity here
+    // can intent to GirlActivity here(设置刷新效果,以及点击跳转大图)
     private void doWithGirl(final RecyclerArrayAdapter<Item> adapter) {
         mRecyclerView.setAdapterWithProgress(adapter);
         adapter.setMore(R.layout.load_more_layout, this);
@@ -118,28 +158,46 @@ public class GirlFragment extends BaseFragment {
     // Load and Refresh data
     @Override
     public void onRefresh() {
+        hasNetWork();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                // before refresh clean cache
+                /**
+                 * page设置成 1,也就是最新的一页,如果不赋值为1,
+                 * 那么page值是上次调用 onLoadMore后累加的值( page++ 可能是5,6,7等等,取决于你上拉刷新几次)!!!
+                 */
+                page = 1;
+                // before refresh clean cache (1、清除适配器数据 2、clearMemoryAndDiskCache 清除磁盘缓存(删除文件data.db)  )
                 girlAdapter.clear();
                 MeiziData.getInstance().clearMemoryAndDiskCache();
+
+                //重新获取最新妹子数据( page = 1 )
                 getGirlData(page);
 
+                if (isNoItem.size() <= 0) {
+                    Toast.makeText(getActivity(), "哎呀,暂时未能获取到妹子~~~", Toast.LENGTH_SHORT).show();
+                }
             }
         }, 1000);
     }
 
     @Override
     public void onLoadMore() {
+        hasNetWork();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                // before load more ,clean cache
+                // before refresh clean cache (1、清除适配器数据 2、clearMemoryAndDiskCache 清除磁盘缓存(删除文件data.db)  )
                 MeiziData.getInstance().clearMemoryAndDiskCache();
+
                 page++;
                 getGirlData(page);
+
+                if (isNoItem.size() <= 0) {
+                    Toast.makeText(getActivity(), "哎呀,暂时未能获取到妹子~~~", Toast.LENGTH_SHORT).show();
+                }
+
             }
-        }, 1000);
+        }, 1000); // 设置延迟 1秒
     }
 }

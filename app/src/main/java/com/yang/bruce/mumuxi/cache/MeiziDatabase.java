@@ -18,9 +18,11 @@ import java.util.List;
  * MeiziDatabase类其实不是数据库存储数据---> 只是普通文件存储数据(取名为数据库文件而已)
  */
 public class MeiziDatabase {
-    private static String DATA_FILE_NAME = "data.db";
+    private static String DATA_FILE_NAME = "meizi_data.db";
 
-    private static MeiziDatabase INSTANCE;
+    private static MeiziDatabase instance;
+
+    // File路径 /data/data/com.yang.bruce.mumuxi/files/meizi_data.db
     File dataFile = new File(MumuXiApp.getInstance().getFilesDir(), DATA_FILE_NAME);
     Gson gson = new Gson();
 
@@ -29,12 +31,12 @@ public class MeiziDatabase {
     }
 
     public static MeiziDatabase getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new MeiziDatabase();
+        if (instance == null) {
+            instance = new MeiziDatabase();
 
         }
 
-        return INSTANCE;
+        return instance;
     }
 
     // 读取缓存数据

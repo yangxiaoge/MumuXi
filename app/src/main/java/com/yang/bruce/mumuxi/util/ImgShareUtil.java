@@ -8,6 +8,8 @@ import com.yang.bruce.mumuxi.R;
 
 /**
  * Created by allen on 2016/6/21.
+ * 调用系统方法实现分享
+ * 可以参考: http://blog.csdn.net/heng615975867/article/details/18983317
  */
 public class ImgShareUtil {
 

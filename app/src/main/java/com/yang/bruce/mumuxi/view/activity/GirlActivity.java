@@ -34,7 +34,7 @@ public class GirlActivity extends BaseActivity {
     private ImageView mImageView;
     private String desc;
     private String url;
-    private Bitmap mBitmap;
+    private Bitmap mBitmap; //妹子高清无码图
     //PhotoView是一个开源的图片查看库
     private PhotoViewAttacher attatcher;
 

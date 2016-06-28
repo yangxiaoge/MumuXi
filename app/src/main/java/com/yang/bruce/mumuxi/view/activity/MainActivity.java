@@ -1,10 +1,12 @@
 package com.yang.bruce.mumuxi.view.activity;
 
+import android.app.Fragment;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.app.Fragment;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 
 import com.nispok.snackbar.Snackbar;
@@ -37,7 +39,7 @@ public class MainActivity extends BaseActivity {
 
     // Judge network is ok
     private void isNetWorkOk() {
-        if (!NetWorkUtil.isNetworkConnected(getApplicationContext()) && !NetWorkUtil.isWifiConnected(getApplication())) {
+        if (!NetWorkUtil.isNetworkConnected(getApplicationContext())) {
             SnackbarManager.show(
                     Snackbar.with(getApplicationContext()) // context
                             .text("网络未连接￣へ￣") // text to display
@@ -57,6 +59,14 @@ public class MainActivity extends BaseActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
         setSupportActionBar(toolbar);
+
+
+        //侧滑栏 以及 左上角图标
+        final DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.rootview);
+        final ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar,
+                R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
     }
 
     // switch fragment

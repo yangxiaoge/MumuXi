@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_title"
+        android:title="@string/app_name">
+        <menu>
+            <item
+                android:id="@+id/navigation_daily"
+
+                android:title="每日精彩" />
+            <item
+                android:id="@+id/navigation_welfare"
+
+                android:title="福利" />
+            <item
+                android:id="@+id/navigation_android"
+
+                android:title="Android" />
+            <item
+                android:id="@+id/navigation_ios"
+
+                android:title="iOS" />
+            <item
+                android:id="@+id/navigation_js"
+
+                android:title="JS" />
+            <item
+                android:id="@+id/navigation_video"
+
+                android:title="精彩视频" />
+            <item
+                android:id="@+id/navigation_resources"
+
+                android:title="拓展资源" />
+            <item
+                android:id="@+id/navigation_app"
+
+                android:title="App" />
+
+        </menu>
+    </item>
+
+</menu>

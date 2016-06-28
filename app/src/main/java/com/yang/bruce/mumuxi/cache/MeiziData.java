@@ -7,6 +7,7 @@ import com.yang.bruce.mumuxi.bean.Girl;
 import com.yang.bruce.mumuxi.bean.Item;
 import com.yang.bruce.mumuxi.net.NetWorkBean;
 
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,25 +62,29 @@ public class MeiziData {
                         return items;
                     }
                 })
-                // 在 doOnNext() 之前先处理一下 Action1<List<Item>> 里面的数据就是输入的数据
+                // 在 doOnNext() 之前先处理一下 Action1<List<Item>> 里面的数据 就是输入的数据
                 .doOnNext(new Action1<List<Item>>() {
                     @Override
                     public void call(List<Item> items) {
 
-                        Log.e("MeiziData", "data write in disk cache");
-                        // 写入缓存(即写入数据库文件)
+                        Log.e(TAG, "data write in disk cache");
+                        // 写入文件缓存(即写入数据库文件)
+                        // 而且 文件中json数据有且只有10条数据(object)
                         MeiziDatabase.getInstance().writeItems(items);
                     }
                 })
                 .subscribe(new Action1<List<Item>>() {
                     @Override
                     public void call(List<Item> items) {
-                        Log.e("MeiziData", "data pass to subscribe");
+                        Log.e(TAG, "data pass to subscribe");
                         cache.onNext(items);// 自动回调 cache.onNext(items);
                     }
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
+                        if (throwable instanceof SocketTimeoutException) {
+                            Log.e(TAG, "连接超时!");
+                        }
                         throwable.printStackTrace();
                     }
                 });
@@ -93,14 +98,21 @@ public class MeiziData {
             Observable.create(new Observable.OnSubscribe<List<Item>>() {
                 @Override
                 public void call(Subscriber<? super List<Item>> subscriber) {
+                    /**
+                     * 这里要注意:
+                     * 1、由于上拉,下拉刷新删除了文件缓存,所以这里readItems()方法一定找不到文件,items肯定为null
+                     *    然后走网络访问(手动刷新肯定要联网获取新的数据, 所以这里逻辑没有问题!!)
+                     * 2、刷新之后访问网络结束会把新数据存文件中, 因此重新打开app时,
+                     *    妹子图片可以取到文件缓存(也就是再次打开app可以先取缓存)
+                     */
                     List<Item> items = MeiziDatabase.getInstance().readItems();
 
                     if (items == null) {
-                        Log.e("MeiziData", "no data in disk and load data from net");
+                        Log.e(TAG, "no data in disk and load data from net");
                         // 加载网络数据
                         loadFromNetwork(page);
                     } else {
-                        Log.e("MeiziData", "disk has data");
+                        Log.e(TAG, "disk has data");
                         // 使用缓存数据
                         subscriber.onNext(items);
                     }
@@ -109,7 +121,7 @@ public class MeiziData {
                     .subscribeOn(Schedulers.io())
                     .subscribe(cache);// 观察者与被观察着通过订阅联系起来
         } else {
-            Log.e("MeiziData", "memory has data just read from memory");
+            Log.e(TAG, "memory has data just read from memory");
         }
         return cache.observeOn(AndroidSchedulers.mainThread())
                 .subscribe(observer);

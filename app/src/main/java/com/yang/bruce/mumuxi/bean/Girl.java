@@ -10,10 +10,11 @@ import java.util.List;
 public class Girl {
     public boolean error;
     // @SerializedName 定义序列化之后的名称
-    public @SerializedName("results")
+    public
+    @SerializedName("results")
     List<GirlResult> girlResults;
 
-    public static class GirlResult{
+    public static class GirlResult {
         public String desc;
         public String url;
     }

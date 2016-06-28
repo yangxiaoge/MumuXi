@@ -19,6 +19,9 @@ import android.widget.LinearLayout;
 
 import com.jude.easyrecyclerview.EasyRecyclerView;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
+import com.nispok.snackbar.Snackbar;
+import com.nispok.snackbar.SnackbarManager;
+import com.nispok.snackbar.listeners.ActionClickListener;
 import com.yang.bruce.mumuxi.R;
 import com.yang.bruce.mumuxi.adapter.ZhuanLanAdapter;
 import com.yang.bruce.mumuxi.base.BaseFragment;
@@ -27,6 +30,8 @@ import com.yang.bruce.mumuxi.constant.TopicData;
 import com.yang.bruce.mumuxi.net.NetWorkBean;
 import com.yang.bruce.mumuxi.util.NetWorkUtil;
 import com.yang.bruce.mumuxi.view.activity.ZhuanLanDetailActivity;
+
+import java.net.SocketTimeoutException;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -59,12 +64,30 @@ public class ZhiHuFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_zhuanlan_layout, container, false);
         initViews(view);
-
         // 网络是否连接
-        if (!NetWorkUtil.isNetworkConnected(getActivity()) && !NetWorkUtil.isWifiConnected(getActivity())) {
-            noNetWorkLayout.setVisibility(View.VISIBLE);
-        }
+        hasNetWork();
+
         return view;
+    }
+
+    // 网络是否连接
+    private void hasNetWork() {
+        if (!NetWorkUtil.isNetworkConnected(getActivity())) {
+            SnackbarManager.show(
+                    Snackbar.with(getActivity()) // context
+                            .text("网络未连接￣へ￣") // text to display
+                            .actionLabel("重试?") // action button label
+                            .actionListener(new ActionClickListener() { // action button's ActionClickListener
+                                @Override
+                                public void onActionClicked(Snackbar snackbar) {
+                                    hasNetWork();
+                                }
+                            }), getActivity());
+
+            noNetWorkLayout.setVisibility(View.VISIBLE);
+        } else {
+            noNetWorkLayout.setVisibility(View.GONE);
+        }
     }
 
     // initViews
@@ -136,7 +159,10 @@ public class ZhiHuFragment extends BaseFragment {
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e(TAG, e.getMessage() + "\t" + e.getLocalizedMessage());
+                        if (e instanceof SocketTimeoutException) {
+                            noNetWorkLayout.setVisibility(View.VISIBLE);
+                        }
+                        Log.e(TAG, e.getMessage() + "\tonError\t" + e.getLocalizedMessage());
                     }
 
                     @Override
@@ -149,6 +175,7 @@ public class ZhiHuFragment extends BaseFragment {
 
     @Override
     public void onRefresh() {
+        hasNetWork();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -165,6 +192,7 @@ public class ZhiHuFragment extends BaseFragment {
     // 加载更多
     @Override
     public void onLoadMore() {
+        hasNetWork();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {

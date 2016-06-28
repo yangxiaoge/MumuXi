@@ -2,6 +2,7 @@ package com.yang.bruce.mumuxi.net;
 
 import com.yang.bruce.mumuxi.net.api.GankApi;
 import com.yang.bruce.mumuxi.net.api.ZhuanLanApi;
+import com.yang.bruce.mumuxi.net.api.ZhuanLanDetailApi;
 
 import java.util.concurrent.TimeUnit;
 
@@ -18,11 +19,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Time: 2016-06-27 15:53
  * Version: 1.0
  * TaskId:
- * Description:
+ * Description: 网络封装类
  */
 public class NetWorkBean {
     private static ZhuanLanApi zhuanLanApi;
     private static GankApi gankApi;
+    private static ZhuanLanDetailApi zhuanLanDetailApi;
     private static OkHttpClient client;
     private static Converter.Factory gsonConverterFactory = GsonConverterFactory.create();
     private static CallAdapter.Factory rxJavaCallAdapterFactory = RxJavaCallAdapterFactory.create();
@@ -30,10 +32,10 @@ public class NetWorkBean {
     private static final String GANHUO_API = "http://gank.io/api/";
     private static final String ZhuanLanList_API = "https://zhuanlan.zhihu.com/api/columns/";
     private static final String ArticleList_API = "https://zhuanlan.zhihu.com/api/columns/";
-    private static final String ARTICLEDETAIL_API = "https://zhuanlan.zhihu.com/api/posts/";
+    private static final String ArticleDetail_API = "https://zhuanlan.zhihu.com/api/posts/";
     public static final String ZhuanLanAvatar_BASE_API = "https://pic2.zhimg.com/";
 
-    public static OkHttpClient initOkHttp(){
+    public static OkHttpClient initOkHttp() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         client = new OkHttpClient.Builder()
@@ -42,6 +44,20 @@ public class NetWorkBean {
                 .connectTimeout(15, TimeUnit.SECONDS)
                 .build();
         return client;
+    }
+
+    // Gank meizi api
+    public static GankApi getGankApi() {
+        if (gankApi == null) {
+            Retrofit retrofit = new Retrofit.Builder()
+                    .client(initOkHttp())
+                    .baseUrl(GANHUO_API)
+                    .addConverterFactory(gsonConverterFactory)
+                    .addCallAdapterFactory(rxJavaCallAdapterFactory)
+                    .build();
+            gankApi = retrofit.create(GankApi.class);
+        }
+        return gankApi;
     }
 
     // Zhihu zhuanlan api
@@ -58,17 +74,18 @@ public class NetWorkBean {
         return zhuanLanApi;
     }
 
-    // Gank meizi api
-    public static GankApi getGankApi() {
-        if (gankApi == null) {
+    // Zhihu zhuanlandetail_article api
+    public static ZhuanLanDetailApi getZhuanLanDetailApi() {
+        if (zhuanLanDetailApi == null) {
             Retrofit retrofit = new Retrofit.Builder()
                     .client(initOkHttp())
-                    .baseUrl(GANHUO_API)
-                    .addConverterFactory(gsonConverterFactory)
+                    .baseUrl(ArticleList_API)
                     .addCallAdapterFactory(rxJavaCallAdapterFactory)
+                    .addConverterFactory(gsonConverterFactory)
                     .build();
-            gankApi = retrofit.create(GankApi.class);
+            zhuanLanDetailApi = retrofit.create(ZhuanLanDetailApi.class);
         }
-        return gankApi;
+
+        return zhuanLanDetailApi;
     }
 }

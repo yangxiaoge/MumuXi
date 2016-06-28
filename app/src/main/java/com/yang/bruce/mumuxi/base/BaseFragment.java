@@ -22,20 +22,28 @@ public class BaseFragment extends Fragment implements SwipeRefreshLayout.OnRefre
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        // 取消订阅
         unsubscribe();
     }
 
+    // 取消订阅
     protected void unsubscribe() {
-        if (subscription != null && !subscription.isUnsubscribed()){
+        if (subscription != null && !subscription.isUnsubscribed()) {
             subscription.unsubscribe();
         }
     }
 
+    /**
+     * 上拉刷新 加载更多
+     */
     @Override
     public void onLoadMore() {
 
     }
 
+    /**
+     * 下拉刷新
+     */
     @Override
     public void onRefresh() {
 
