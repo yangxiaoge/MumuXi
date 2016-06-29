@@ -52,4 +52,7 @@ dependencies {
 
     //过度动画 loading加载 (https://github.com/zzz40500/android-shapeLoadingView)
     compile 'com.github.zzz40500:android-shapeLoadingView:1.0.3.2'
+
+    // butterknife
+    compile 'com.jakewharton:butterknife:7.0.1'
 }

@@ -12,6 +12,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
 import com.yang.bruce.mumuxi.R;
 import com.yang.bruce.mumuxi.view.activity.AboutActivity;
+import com.yang.bruce.mumuxi.view.activity.AboutMeActivity;
 
 /**
  * Author: 0027008122 [yang.jianan@zte.com.cn]
@@ -37,6 +38,10 @@ public class BaseActivity extends AppCompatActivity implements SwipeRefreshLayou
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.menu_about_me:
+                Intent intent = new Intent(getApplicationContext(), AboutMeActivity.class);
+                startActivity(intent);
+                break;
             case R.id.what_to_do:
                 new MaterialDialog.Builder(this)
                         .title("What to do")
@@ -50,8 +55,8 @@ public class BaseActivity extends AppCompatActivity implements SwipeRefreshLayou
                         .show(); // 不要忘记show!!!
                 break;
             case R.id.about:
-                Intent intent = new Intent(getApplicationContext(), AboutActivity.class);
-                startActivity(intent);
+                Intent intent2 = new Intent(getApplicationContext(), AboutActivity.class);
+                startActivity(intent2);
                 break;
             // toolbar 返回键对应 id
             case android.R.id.home:

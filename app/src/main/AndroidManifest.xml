@@ -22,6 +22,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".view.activity.AboutActivity" />
+        <activity android:name=".view.activity.AboutMeActivity" />
         <activity android:name=".view.activity.GirlActivity" />
         <activity android:name=".view.activity.ZhuanLanDetailActivity" />
         <activity android:name=".view.activity.ArticleDetailActivity" />

@@ -7,5 +7,7 @@
         <item>专栏文章评论接口的实现</item>
         <item>专栏文章作者圆角头像的实现</item>
         <item>专栏文章分享功能的实现</item>
+        <item>Loading加载动画</item>
+        <item>文章详情页复制与浏览器打开</item>
     </string-array>
 </resources>
