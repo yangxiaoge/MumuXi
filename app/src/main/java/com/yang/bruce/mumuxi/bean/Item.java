@@ -1,5 +1,7 @@
 package com.yang.bruce.mumuxi.bean;
 
+import java.util.Date;
+
 /**
  *
  * Cache Item for girl pic
@@ -8,4 +10,5 @@ package com.yang.bruce.mumuxi.bean;
 public class Item {
     public String description;
     public String imageUrl;
+    public Date publishedAt;
 }

@@ -155,6 +155,7 @@ public class GirlFragment extends BaseFragment {
                 Intent intent = new Intent(getActivity(), GirlActivity.class);
                 intent.putExtra("desc", adapter.getItem(position).description);
                 intent.putExtra("url", adapter.getItem(position).imageUrl);
+                intent.putExtra("publishedAt", adapter.getItem(position).publishedAt);
                 startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(getActivity()).toBundle());
             }
         });

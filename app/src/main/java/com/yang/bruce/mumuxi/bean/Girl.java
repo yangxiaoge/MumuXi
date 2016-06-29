@@ -2,6 +2,7 @@ package com.yang.bruce.mumuxi.bean;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -15,7 +16,8 @@ public class Girl {
     List<GirlResult> girlResults;
 
     public static class GirlResult {
-        public String desc;
-        public String url;
+        public String desc; //描述
+        public String url; //图片地址
+        public Date publishedAt; //发布日期
     }
 }

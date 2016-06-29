@@ -56,6 +56,7 @@ public class MeiziData {
                             Item item = new Item();
                             item.description = gankBeauty.desc;
                             item.imageUrl = gankBeauty.url;
+                            item.publishedAt = gankBeauty.publishedAt;
                             items.add(item);
                         }
                         // 将Girl.GirlResult对象赋给Item对象后返回List<Item>
