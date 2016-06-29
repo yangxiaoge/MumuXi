@@ -26,7 +26,7 @@ dependencies {
     compile 'com.android.support:support-v13:24.0.0'
     compile 'com.android.support:design:24.0.0'
     compile 'com.android.support:cardview-v7:24.0.0'
-    //easyrecyclerview
+    //easyrecyclerview ( https://github.com/Jude95/EasyRecyclerView ), 注意EasyRecyclerView本质并不是一个RecyclerView
     compile 'com.jude:easyrecyclerview:4.0.2'
     //circleimageview
     compile 'de.hdodenhof:circleimageview:2.0.0'
@@ -49,4 +49,7 @@ dependencies {
 
     //https://github.com/chrisbanes/PhotoView ( PhotoView是一个开源的图片查看库，可以实现图片的浏览，手势放大缩小等操作，)
     compile 'com.commit451:PhotoView:1.2.4'
+
+    //过度动画 loading加载 (https://github.com/zzz40500/android-shapeLoadingView)
+    compile 'com.github.zzz40500:android-shapeLoadingView:1.0.3.2'
 }

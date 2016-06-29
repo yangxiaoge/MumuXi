@@ -1,13 +1,15 @@
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <!-- app:layout_progress="@layout/view_progress" 这个时间太短,所以不要了 -->
     <com.jude.easyrecyclerview.EasyRecyclerView
         android:id="@+id/recycler_view"
-        app:scrollbarStyle="insideOverlay"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </com.jude.easyrecyclerview.EasyRecyclerView>
+        android:layout_height="match_parent"
+        app:layout_empty="@layout/loading_view"
+        app:layout_error="@layout/error_layout"
+        app:scrollbarStyle="insideOverlay" />
 
 </android.support.design.widget.CoordinatorLayout>

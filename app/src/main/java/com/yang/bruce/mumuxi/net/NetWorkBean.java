@@ -1,5 +1,6 @@
 package com.yang.bruce.mumuxi.net;
 
+import com.yang.bruce.mumuxi.net.api.ArticleDetailApi;
 import com.yang.bruce.mumuxi.net.api.GankApi;
 import com.yang.bruce.mumuxi.net.api.ZhuanLanApi;
 import com.yang.bruce.mumuxi.net.api.ZhuanLanDetailApi;
@@ -25,6 +26,7 @@ public class NetWorkBean {
     private static ZhuanLanApi zhuanLanApi;
     private static GankApi gankApi;
     private static ZhuanLanDetailApi zhuanLanDetailApi;
+    private static ArticleDetailApi articleDetailApi;
     private static OkHttpClient client;
     private static Converter.Factory gsonConverterFactory = GsonConverterFactory.create();
     private static CallAdapter.Factory rxJavaCallAdapterFactory = RxJavaCallAdapterFactory.create();
@@ -33,6 +35,7 @@ public class NetWorkBean {
     private static final String ZhuanLanList_API = "https://zhuanlan.zhihu.com/api/columns/";
     private static final String ArticleList_API = "https://zhuanlan.zhihu.com/api/columns/";
     private static final String ArticleDetail_API = "https://zhuanlan.zhihu.com/api/posts/";
+    public static final String ArticleDetail_Share = "https://zhuanlan.zhihu.com/p/";
     public static final String ZhuanLanAvatar_BASE_API = "https://pic2.zhimg.com/";
 
     public static OkHttpClient initOkHttp() {
@@ -87,5 +90,20 @@ public class NetWorkBean {
         }
 
         return zhuanLanDetailApi;
+    }
+
+    // Zhihu _article detail api
+    public static ArticleDetailApi getArticleDetailApi() {
+        if (articleDetailApi == null) {
+            Retrofit retrofit = new Retrofit.Builder()
+                    .client(initOkHttp())
+                    .baseUrl(ArticleDetail_API)
+                    .addCallAdapterFactory(rxJavaCallAdapterFactory)
+                    .addConverterFactory(gsonConverterFactory)
+                    .build();
+            articleDetailApi = retrofit.create(ArticleDetailApi.class);
+        }
+
+        return articleDetailApi;
     }
 }

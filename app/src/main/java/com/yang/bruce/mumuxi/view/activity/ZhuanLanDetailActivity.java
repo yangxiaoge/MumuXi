@@ -32,7 +32,7 @@ import rx.schedulers.Schedulers;
  * Time: 2016-06-27 16:57
  * Version: 1.0
  * TaskId:
- * Description:
+ * Description:  专栏detail
  */
 public class ZhuanLanDetailActivity extends BaseActivity {
     private static final String TAG = "ZhuanLanDetailActivity";
@@ -100,7 +100,8 @@ public class ZhuanLanDetailActivity extends BaseActivity {
             @Override
             public void onItemClick(int position) {
                 Intent intent = new Intent(ZhuanLanDetailActivity.this, ArticleDetailActivity.class);
-                intent.putExtra("slug", adapter.getItem(position).getArticleSlug());
+                intent.putExtra("author",adapter.getItem(position).getSlug()); // 作者
+                intent.putExtra("slug", adapter.getItem(position).getArticleSlug()); //文章专题号
                 intent.putExtra("image", adapter.getItem(position).getTitleImage());
                 intent.putExtra("title", adapter.getItem(position).getTitle());
                 startActivity(intent);
@@ -154,7 +155,7 @@ public class ZhuanLanDetailActivity extends BaseActivity {
             String summary = article.getSummary(); // 概要
             int commentsCount = article.getCommentsCount(); //评论数
             int likesCount = article.getLikeCount(); //喜欢
-            articeSlug = article.getArticleSlug(); //文章作者
+            articeSlug = article.getSlug(); //文章号
 
             // 重新组装 Article对象
             Article articleItem = new Article(title, titleImage, summary, content, profileUrl

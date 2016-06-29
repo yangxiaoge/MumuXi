@@ -81,11 +81,11 @@ public class MeiziData {
                     }
                 }, new Action1<Throwable>() {
                     @Override
-                    public void call(Throwable throwable) {
-                        if (throwable instanceof SocketTimeoutException) {
+                    public void call(Throwable e) {
+                        if (e instanceof SocketTimeoutException) {
                             Log.e(TAG, "连接超时!");
                         }
-                        throwable.printStackTrace();
+                        e.printStackTrace();
                     }
                 });
     }

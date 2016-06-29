@@ -27,6 +27,9 @@
     <com.jude.easyrecyclerview.EasyRecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
+        app:layout_empty="@layout/empty_layout"
+        app:layout_error="@layout/error_layout"
+        app:layout_progress="@layout/view_progress"
         android:layout_height="match_parent"
         android:layout_marginTop="60dp"
         app:scrollbarStyle="insideOverlay" />

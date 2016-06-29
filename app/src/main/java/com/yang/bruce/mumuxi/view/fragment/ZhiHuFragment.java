@@ -84,9 +84,9 @@ public class ZhiHuFragment extends BaseFragment {
                                 }
                             }), getActivity());
 
-            noNetWorkLayout.setVisibility(View.VISIBLE);
+//            noNetWorkLayout.setVisibility(View.VISIBLE);
         } else {
-            noNetWorkLayout.setVisibility(View.GONE);
+//            noNetWorkLayout.setVisibility(View.GONE);
         }
     }
 
@@ -121,7 +121,7 @@ public class ZhiHuFragment extends BaseFragment {
         zhuanLanAdapter = new ZhuanLanAdapter(getActivity());
         doWithZhuanLan(zhuanLanAdapter);
         mRecyclerView.setRefreshListener(this);
-        mRecyclerView.setRefreshing(true); //刷新动画
+//        mRecyclerView.setRefreshing(true); //刷新动画  (布局控件已经设置了等待属性  app:layout_progress="@layout/view_progress" )
         onRefresh();
 
     }
@@ -161,7 +161,8 @@ public class ZhiHuFragment extends BaseFragment {
                     @Override
                     public void onError(Throwable e) {
                         if (e instanceof SocketTimeoutException) {
-                            noNetWorkLayout.setVisibility(View.VISIBLE);
+                            //noNetWorkLayout.setVisibility(View.VISIBLE);
+                            Log.e(TAG, "连接超时!");
                         }
                         Log.e(TAG, e.getMessage() + "\tonError\t" + e.getLocalizedMessage());
                     }

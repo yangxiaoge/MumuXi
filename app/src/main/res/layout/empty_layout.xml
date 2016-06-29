@@ -1,23 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/error_layout"
+    android:id="@+id/empty_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@mipmap/zz"
-        app:civ_border_color="#666666"
-        app:civ_border_width="1dp" />
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:text="@string/zhuanlan_error" />
+        android:textSize="15sp"
+        android:text="客官不要急,先喝杯农夫山泉~~" />
 
 </LinearLayout>

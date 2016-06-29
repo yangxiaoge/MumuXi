@@ -5,4 +5,6 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="colorComment">#3896ef</color>
+    <color name="white">#ffffff</color>
+    <color name="textColorLink">#dc4d78</color>
 </resources>

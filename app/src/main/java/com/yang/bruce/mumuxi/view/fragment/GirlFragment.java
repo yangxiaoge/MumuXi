@@ -28,6 +28,7 @@ import com.yang.bruce.mumuxi.util.Dp2PxUtil;
 import com.yang.bruce.mumuxi.util.NetWorkUtil;
 import com.yang.bruce.mumuxi.view.activity.GirlActivity;
 
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -124,7 +125,11 @@ public class GirlFragment extends BaseFragment {
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e(TAG, e.getMessage());
+                        if (e instanceof SocketTimeoutException) {
+                            Toast.makeText(getActivity(), "连接超时,请检查网络!", Toast.LENGTH_SHORT).show();
+
+                        }
+                        Log.e(TAG, e.getMessage() + "\tonError\t" + e.getLocalizedMessage());
                     }
 
                     @Override
@@ -174,9 +179,10 @@ public class GirlFragment extends BaseFragment {
                 //重新获取最新妹子数据( page = 1 )
                 getGirlData(page);
 
-                if (isNoItem.size() <= 0) {
-                    Toast.makeText(getActivity(), "哎呀,暂时未能获取到妹子~~~", Toast.LENGTH_SHORT).show();
-                }
+                // 刷新后, 获取网络后查看有无数据
+//                if (isNoItem.size() <= 0) {
+//                    Toast.makeText(getActivity(), "哎呀,暂时未能获取到妹子~~~", Toast.LENGTH_SHORT).show();
+//                }
             }
         }, 1000);
     }
@@ -193,9 +199,10 @@ public class GirlFragment extends BaseFragment {
                 page++;
                 getGirlData(page);
 
-                if (isNoItem.size() <= 0) {
-                    Toast.makeText(getActivity(), "哎呀,暂时未能获取到妹子~~~", Toast.LENGTH_SHORT).show();
-                }
+                // 刷新后, 获取网络后查看有无数据
+//                if (isNoItem.size() <= 0) {
+//                    Toast.makeText(getActivity(), "哎呀,暂时未能获取到妹子~~~", Toast.LENGTH_SHORT).show();
+//                }
 
             }
         }, 1000); // 设置延迟 1秒
