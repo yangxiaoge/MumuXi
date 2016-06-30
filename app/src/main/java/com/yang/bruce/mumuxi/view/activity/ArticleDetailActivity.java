@@ -42,7 +42,7 @@ public class ArticleDetailActivity extends BaseActivity {
     private String author, titleImage, articleTitle, articleLink;
     private ImageView mImageView;
     private WebView mWebView; // 承载html
-    private LinearLayout loading;
+    private LinearLayout loading; // 正文内容 loading 布局
     private Toolbar toolbar;
     private CollapsingToolbarLayout collapsingToolbarLayout;
 
@@ -101,7 +101,7 @@ public class ArticleDetailActivity extends BaseActivity {
      * conten节点数据是 html的,要处理下
      * Return data of Content is HTML ,Process here and show with webView
      *
-     * master.css可以不要(反正不影响)
+     * assets/master.css 可以不要(反正不影响)
      *
      * @param articleDetail 文章对象
      */

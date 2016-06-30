@@ -33,7 +33,7 @@ dependencies {
     //material-dialogs
     compile 'com.afollestad.material-dialogs:core:0.8.5.9'
     //snackbar
-    compile 'com.nispok:snackbar:2.11.0'
+//    compile 'com.nispok:snackbar:2.11.0' //不推荐了, 直接用 design 库中的snackbar
 
     // RX
     compile 'io.reactivex:rxjava:1.1.5'

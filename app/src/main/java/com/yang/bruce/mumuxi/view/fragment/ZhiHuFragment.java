@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
@@ -19,9 +20,6 @@ import android.widget.LinearLayout;
 
 import com.jude.easyrecyclerview.EasyRecyclerView;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
-import com.nispok.snackbar.Snackbar;
-import com.nispok.snackbar.SnackbarManager;
-import com.nispok.snackbar.listeners.ActionClickListener;
 import com.yang.bruce.mumuxi.R;
 import com.yang.bruce.mumuxi.adapter.ZhuanLanAdapter;
 import com.yang.bruce.mumuxi.base.BaseFragment;
@@ -32,6 +30,7 @@ import com.yang.bruce.mumuxi.util.NetWorkUtil;
 import com.yang.bruce.mumuxi.view.activity.ZhuanLanDetailActivity;
 
 import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -46,8 +45,10 @@ import rx.schedulers.Schedulers;
  */
 public class ZhiHuFragment extends BaseFragment {
     private static final String TAG = "ZhihuFragment";
+    private View view;
+    private LinearLayout noData;
+
     private EasyRecyclerView mRecyclerView;
-    private LinearLayout noNetWorkLayout;
     private ZhuanLanAdapter zhuanLanAdapter;
     private Handler handler = new Handler();
     // 话题
@@ -62,36 +63,30 @@ public class ZhiHuFragment extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_zhuanlan_layout, container, false);
+        view = inflater.inflate(R.layout.fragment_zhuanlan_layout, container, false);
         initViews(view);
         // 网络是否连接
-        hasNetWork();
+//        isNetWorkOk();
 
         return view;
     }
 
     // 网络是否连接
-    private void hasNetWork() {
+    private void isNetWorkOk() {
         if (!NetWorkUtil.isNetworkConnected(getActivity())) {
-            SnackbarManager.show(
-                    Snackbar.with(getActivity()) // context
-                            .text("网络未连接￣へ￣") // text to display
-                            .actionLabel("重试?") // action button label
-                            .actionListener(new ActionClickListener() { // action button's ActionClickListener
-                                @Override
-                                public void onActionClicked(Snackbar snackbar) {
-                                    hasNetWork();
-                                }
-                            }), getActivity());
-
-//            noNetWorkLayout.setVisibility(View.VISIBLE);
-        } else {
-//            noNetWorkLayout.setVisibility(View.GONE);
+            Snackbar.make(view.findViewById(R.id.collapsing_toolbar), "无网络￣へ￣", Snackbar.LENGTH_SHORT)
+                    .setAction("重试?", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            isNetWorkOk();
+                        }
+                    }).show(); // 不要忘了show
         }
     }
 
     // initViews
     private void initViews(View view) {
+
         //FloatingActionButton
         final FloatingActionButton fb = (FloatingActionButton) view.findViewById(R.id.fab);
         fb.setOnClickListener(new View.OnClickListener() {
@@ -113,7 +108,8 @@ public class ZhiHuFragment extends BaseFragment {
             }
         });
 
-        noNetWorkLayout = (LinearLayout) view.findViewById(R.id.no_network);
+        noData = (LinearLayout) view.findViewById(R.id.no_network);
+
         mRecyclerView = (EasyRecyclerView) view.findViewById(R.id.recycler_view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());// 默认分割线
@@ -156,13 +152,18 @@ public class ZhiHuFragment extends BaseFragment {
                     @Override
                     public void onCompleted() {
                         Log.d(TAG, "onCompleted");
+
                     }
 
                     @Override
                     public void onError(Throwable e) {
+
                         if (e instanceof SocketTimeoutException) {
                             //noNetWorkLayout.setVisibility(View.VISIBLE);
                             Log.e(TAG, "连接超时!");
+                        }
+                        else if(e instanceof UnknownHostException){
+                            Log.e(TAG, "未知的域名!");
                         }
                         Log.e(TAG, e.getMessage() + "\tonError\t" + e.getLocalizedMessage());
                     }
@@ -177,7 +178,7 @@ public class ZhiHuFragment extends BaseFragment {
 
     @Override
     public void onRefresh() {
-        hasNetWork();
+//        isNetWorkOk();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -194,7 +195,7 @@ public class ZhiHuFragment extends BaseFragment {
     // 加载更多
     @Override
     public void onLoadMore() {
-        hasNetWork();
+//        isNetWorkOk();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {

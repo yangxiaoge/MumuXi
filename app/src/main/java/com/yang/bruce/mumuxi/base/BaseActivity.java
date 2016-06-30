@@ -1,6 +1,7 @@
 package com.yang.bruce.mumuxi.base;
 
 import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -11,6 +12,7 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
 import com.yang.bruce.mumuxi.R;
+import com.yang.bruce.mumuxi.util.NetWorkUtil;
 import com.yang.bruce.mumuxi.view.activity.AboutActivity;
 import com.yang.bruce.mumuxi.view.activity.AboutMeActivity;
 
@@ -27,7 +29,21 @@ public class BaseActivity extends AppCompatActivity implements SwipeRefreshLayou
     public void initViews() {
 
     }
+    // Judge network is ok
+    public void isNetWorkOk(View view) {
 
+        if (!NetWorkUtil.isNetworkConnected(getApplicationContext())) {
+
+            Snackbar.make(view, "无网络￣へ￣", Snackbar.LENGTH_LONG)
+                    .setAction("重试?", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            isNetWorkOk(view);
+                        }
+                    }).show(); // 不要忘了show
+
+        }
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

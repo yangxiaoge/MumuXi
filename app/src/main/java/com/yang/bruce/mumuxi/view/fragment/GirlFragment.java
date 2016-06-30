@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
@@ -16,9 +17,6 @@ import android.widget.Toast;
 import com.jude.easyrecyclerview.EasyRecyclerView;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
 import com.jude.easyrecyclerview.decoration.SpaceDecoration;
-import com.nispok.snackbar.Snackbar;
-import com.nispok.snackbar.SnackbarManager;
-import com.nispok.snackbar.listeners.ActionClickListener;
 import com.yang.bruce.mumuxi.R;
 import com.yang.bruce.mumuxi.adapter.GirlAdapter;
 import com.yang.bruce.mumuxi.base.BaseFragment;
@@ -45,6 +43,8 @@ import rx.Subscription;
 public class GirlFragment extends BaseFragment {
 
     private static final String TAG = "GirlFragment";
+    private View view;
+
     protected Subscription subscription;
     private EasyRecyclerView mRecyclerView;
     private GirlAdapter girlAdapter;
@@ -57,27 +57,24 @@ public class GirlFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_girl_layout, container, false);
+        view = inflater.inflate(R.layout.fragment_girl_layout, container, false);
         initViews(view);
         // 网络是否连接
-        hasNetWork();
+//        isNetWorkOk();
 
         return view;
     }
 
     // 网络是否连接
-    private void hasNetWork() {
+    private void isNetWorkOk() {
         if (!NetWorkUtil.isNetworkConnected(getActivity())) {
-            SnackbarManager.show(
-                    Snackbar.with(getActivity()) // context
-                            .text("网络未连接￣へ￣") // text to display
-                            .actionLabel("重试?") // action button label
-                            .actionListener(new ActionClickListener() { // action button's ActionClickListener
-                                @Override
-                                public void onActionClicked(Snackbar snackbar) {
-                                    hasNetWork();
-                                }
-                            }), getActivity());
+            Snackbar.make(view.findViewById(R.id.collapsing_toolbar), "无网络￣へ￣", Snackbar.LENGTH_LONG)
+                    .setAction("重试?", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            isNetWorkOk();
+                        }
+                    }).show(); // 不要忘了show
 
         }
     }
@@ -164,7 +161,7 @@ public class GirlFragment extends BaseFragment {
     // Load and Refresh data
     @Override
     public void onRefresh() {
-        hasNetWork();
+//        isNetWorkOk();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -190,7 +187,7 @@ public class GirlFragment extends BaseFragment {
 
     @Override
     public void onLoadMore() {
-        hasNetWork();
+//        isNetWorkOk();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {

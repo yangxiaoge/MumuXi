@@ -2,19 +2,18 @@ package com.yang.bruce.mumuxi.view.activity;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
+import android.widget.Toast;
 
-import com.nispok.snackbar.Snackbar;
-import com.nispok.snackbar.SnackbarManager;
-import com.nispok.snackbar.listeners.ActionClickListener;
 import com.yang.bruce.mumuxi.R;
 import com.yang.bruce.mumuxi.base.BaseActivity;
-import com.yang.bruce.mumuxi.util.NetWorkUtil;
 import com.yang.bruce.mumuxi.view.fragment.GirlFragment;
 import com.yang.bruce.mumuxi.view.fragment.ZhiHuFragment;
 
@@ -24,8 +23,12 @@ public class MainActivity extends BaseActivity {
     private static final String TAG = "MainActivity";
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
+    private CoordinatorLayout collapsingToolbarLayout;
+
     private List<Fragment> fragments;
     private String[] titles = {"专栏", "妹纸"};
+
+    private long exitTime = 0; // 返回键 退出时间
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,27 +37,20 @@ public class MainActivity extends BaseActivity {
 
         initViews();
         switchFragment();
-        isNetWorkOk();
+
+        // 判断是否有网
+        isNetWorkOk(collapsingToolbarLayout);
     }
 
-    // Judge network is ok
-    private void isNetWorkOk() {
-        if (!NetWorkUtil.isNetworkConnected(getApplicationContext())) {
-            SnackbarManager.show(
-                    Snackbar.with(getApplicationContext()) // context
-                            .text("网络未连接￣へ￣") // text to display
-                            .actionLabel("重试?") // action button label
-                            .actionListener(new ActionClickListener() { // action button's ActionClickListener
-                                @Override
-                                public void onActionClicked(Snackbar snackbar) {
-                                    isNetWorkOk();
-                                }
-                            }), this);
-        }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     // initial initView
     public void initViews() {
+        collapsingToolbarLayout = (CoordinatorLayout) findViewById(R.id.collapsing_toolbar);
+
         //Toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
@@ -107,8 +103,27 @@ public class MainActivity extends BaseActivity {
         mTabLayout.setupWithViewPager(mViewPager);
     }
 
+
+    /**
+     *  返回键 (2秒内退出)
+     * @param keyCode 返回键code
+     * @param event keyEvent
+     * @return true
+     */
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+            //两秒之内按返回键就会退出
+            if (System.currentTimeMillis() - exitTime > 2000) {
+                Toast.makeText(this, "再按一次退出", Toast.LENGTH_SHORT).show();
+                exitTime = System.currentTimeMillis();
+            } else {
+                finish();
+            }
+            return true; // 不要忘记 return true
+        }
+
+        return super.onKeyDown(keyCode, event);
     }
 }
