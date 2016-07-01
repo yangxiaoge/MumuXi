@@ -1,58 +1,132 @@
 apply plugin: 'com.android.application'
 
+def releaseTime() {
+    //返回发布的 北京时间
+    return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC+8"))
+}
+
+
+def keyStore = file('D:\\yangxiaoge.jks')
+
 android {
-    compileSdkVersion 24
-    buildToolsVersion "24.0.0"
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+    buildToolsVersion rootProject.ext.android.buildToolsVersion
 
     defaultConfig {
-        applicationId "com.yang.bruce.mumuxi"
-        minSdkVersion 21
-        targetSdkVersion 24
-        versionCode 1
-        versionName "1.0"
+        applicationId rootProject.ext.android.applicationId
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode rootProject.ext.android.versionCode
+        versionName rootProject.ext.android.versionName
     }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+    // 配置签名文件
+    signingConfigs {
+         // debug时打包用的签名
+         debug {
+
+         }
+        // release时打包用的签名
+        app1 {
+            storeFile file("D:\\yangxiaoge.jks")
+            storePassword project.hasProperty('STOREPASS') ? STOREPASS : ''
+            keyAlias project.hasProperty('KEYALIAS') ? KEYALIAS : ''
+            keyPassword project.hasProperty('KEYPASS') ? KEYPASS : ''
         }
     }
+
+    buildTypes {
+        /*debug {
+            // 显示Log
+            buildConfigField "boolean", "LOG_DEBUG", "true"
+
+            versionNameSuffix "-debug"
+            minifyEnabled false
+            zipAlignEnabled false
+            shrinkResources false
+            signingConfig signingConfigs.debug
+        }*/
+
+        release {
+            // 不显示Log
+            buildConfigField "boolean", "LOG_DEBUG", "false"
+            //混淆代码的功能
+            minifyEnabled false
+            //压缩对齐生成的apk包
+            zipAlignEnabled true
+            //指定混淆规则，需要压缩优化的混淆要把proguard-android.txt换成proguard-android.txt
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            //移除无用的资源文件
+            shrinkResources true
+            //启用multidex的支持
+            multiDexEnabled true
+
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "umeng"]
+
+            if (keyStore.exists()) {
+                println "Mumuxi: using yangxiaoge's key"
+                signingConfig signingConfigs.app1
+            } else {
+                println "Mumuxi: using default key"
+            }
+
+            applicationVariants.all { variant ->
+                variant.outputs.each { output ->
+                    def outputFile = output.outputFile
+                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                        // 输出apk名称为Mumuxi_v1.0_2015-01-15_wandoujia.apk
+                        def fileName = "Mumuxi_v${defaultConfig.versionName}_${releaseTime()}_${variant.productFlavors[0].name}.apk"
+                        output.outputFile = new File(outputFile.parent, fileName)
+                    }
+                }
+            }
+        }
+    }
+
+    // 友盟多渠道打包 这种写法参考 : http://www.jianshu.com/p/a9ccdf67ca6c 和 http://stormzhang.com/devtools/2015/01/15/android-studio-tutorial6/
+    productFlavors {
+        wandoujia {}
+        _360 {}
+        tencent{}
+    }
+    productFlavors.all { flavor ->
+        flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
+    }
+    // 友盟多渠道打包 end
+
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:24.0.0'
-    compile 'com.android.support:support-v13:24.0.0'
-    compile 'com.android.support:design:24.0.0'
-    compile 'com.android.support:cardview-v7:24.0.0'
-    //easyrecyclerview ( https://github.com/Jude95/EasyRecyclerView ), 注意EasyRecyclerView本质并不是一个RecyclerView
-    compile 'com.jude:easyrecyclerview:4.0.2'
-    //circleimageview
-    compile 'de.hdodenhof:circleimageview:2.0.0'
-    //material-dialogs
-    compile 'com.afollestad.material-dialogs:core:0.8.5.9'
-    //snackbar
-//    compile 'com.nispok:snackbar:2.11.0' //不推荐了, 直接用 design 库中的snackbar
 
-    // RX
-    compile 'io.reactivex:rxjava:1.1.5'
-    compile 'io.reactivex:rxandroid:1.2.0'
-    compile 'com.squareup.retrofit2:retrofit:2.0.2'
-    compile 'com.squareup.retrofit2:converter-gson:2.0.2'
-    compile 'com.squareup.retrofit2:adapter-rxjava:2.0.2'
-    compile 'com.squareup.okhttp3:logging-interceptor:3.0.1'
-    compile 'com.squareup.okhttp3:okhttp:3.0.1'
+    compile rootProject.ext.dependencies["appcompat-v7"]
+    compile rootProject.ext.dependencies["design"]
+    compile rootProject.ext.dependencies["support-v13"]
+    compile rootProject.ext.dependencies["cardview-v7"]
+    //easyrecyclerview ( https://github.com/Jude95/EasyRecyclerView ), 注意EasyRecyclerView本质并不是一个RecyclerView
+    compile rootProject.ext.dependencies["easyrecyclerview"]
+    //circleimageview
+    compile rootProject.ext.dependencies["circleimageview"]
+    //material-dialogs
+    compile rootProject.ext.dependencies["material-dialogs"]
+
+    //Rx,以及网络
+    compile rootProject.ext.dependencies["rxjava"]
+    compile rootProject.ext.dependencies["rxandroid"]
+    compile rootProject.ext.dependencies["retrofit"]
+    compile rootProject.ext.dependencies["converter-gson"]
+    compile rootProject.ext.dependencies["adapter-rxjava"]
+    compile rootProject.ext.dependencies["logging-interceptor"]
+    compile rootProject.ext.dependencies["okhttp"]
 
     //glide
-    compile 'com.github.bumptech.glide:glide:3.7.0'
-
+    compile rootProject.ext.dependencies["glide"]
     //https://github.com/chrisbanes/PhotoView ( PhotoView是一个开源的图片查看库，可以实现图片的浏览，手势放大缩小等操作，)
-    compile 'com.commit451:PhotoView:1.2.4'
-
+    compile rootProject.ext.dependencies["photoView"]
     //过度动画 loading加载 (https://github.com/zzz40500/android-shapeLoadingView)
-    compile 'com.github.zzz40500:android-shapeLoadingView:1.0.3.2'
+    compile rootProject.ext.dependencies["shapeLoadingView"]
+    // 懒人框架
+    compile rootProject.ext.dependencies["butterknife"]
 
-    // butterknife
-    compile 'com.jakewharton:butterknife:7.0.1'
 }

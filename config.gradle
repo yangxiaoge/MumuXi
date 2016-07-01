@@ -1,0 +1,34 @@
+/**
+ * compile 依赖配置
+ * 当然,这个文件要在 build.gradle中引入 例如: apply from: "config.gradle"
+ */
+
+ext {
+    android = [compileSdkVersion: 24,
+               buildToolsVersion: "24.0.0",
+               applicationId    : "com.yang.bruce.mumuxi",
+               minSdkVersion    : 14,
+               targetSdkVersion : 24,
+               versionCode      : 1021,
+               versionName      : "1.0.0"]
+
+    dependencies = ["appcompat-v7"       : "com.android.support:appcompat-v7:24.0.0",
+                    "design"             : "com.android.support:design:24.0.0",
+                    "support-v13"        : "com.android.support:support-v13:24.0.0",
+                    "cardview-v7"        : "com.android.support:cardview-v7:24.0.0",
+                    "easyrecyclerview"   : "com.jude:easyrecyclerview:4.0.2",
+                    "circleimageview"    : "de.hdodenhof:circleimageview:2.0.0",
+                    "material-dialogs"   : "com.afollestad.material-dialogs:core:0.8.5.9",
+                    "rxjava"             : "io.reactivex:rxjava:1.1.5",
+                    "rxandroid"          : "io.reactivex:rxandroid:1.1.0",
+                    "retrofit"           : "com.squareup.retrofit2:retrofit:2.0.2",
+                    "converter-gson"     : "com.squareup.retrofit2:converter-gson:2.0.2",
+                    "adapter-rxjava"     : "com.squareup.retrofit2:adapter-rxjava:2.0.2",
+                    "logging-interceptor": "com.squareup.okhttp3:logging-interceptor:3.0.1",
+                    "okhttp"             : "com.squareup.okhttp3:okhttp:3.0.1",
+                    "glide"              : "com.github.bumptech.glide:glide:3.7.0",
+                    "photoView"          : "com.commit451:PhotoView:1.2.4",
+                    "shapeLoadingView"   : "com.github.zzz40500:android-shapeLoadingView:1.0.3.2",
+                    "butterknife"        : "com.jakewharton:butterknife:7.0.1"
+    ]
+}

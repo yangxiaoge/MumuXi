@@ -26,6 +26,15 @@
         <activity android:name=".view.activity.GirlActivity" />
         <activity android:name=".view.activity.ZhuanLanDetailActivity" />
         <activity android:name=".view.activity.ArticleDetailActivity" />
+
+
+        <!-- begin umeng -->
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="5774e07c67e58e2f4900197b"/>
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="${UMENG_CHANNEL_VALUE}" />
     </application>
 
 </manifest>

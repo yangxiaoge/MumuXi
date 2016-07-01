@@ -1,5 +1,12 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
+/**
+ * 这句话不能忘记!!
+ * 要引入 config.gradle 文件
+ * 不然在 app/build.gradle中 dependencies 是找不到的
+ */
+apply from: "config.gradle"
+
 buildscript {
     repositories {
         jcenter()
@@ -15,9 +22,7 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
-        maven {
-            url "https://jitpack.io"
-        }
+        maven { url "https://jitpack.io" }
     }
 }
 
