@@ -7,7 +7,7 @@ ext {
     android = [compileSdkVersion: 24,
                buildToolsVersion: "24.0.0",
                applicationId    : "com.yang.bruce.mumuxi",
-               minSdkVersion    : 14,
+               minSdkVersion    : 21,
                targetSdkVersion : 24,
                versionCode      : 1021,
                versionName      : "1.0.0"]
