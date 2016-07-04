@@ -24,7 +24,7 @@ import rx.subjects.BehaviorSubject;
 public class MeiziData {
     private static final String TAG = "MeiziData";
     private static MeiziData instance;
-    // BehaviorSubject 只打印出最后一个数据
+    // 内存缓存---BehaviorSubject 只打印出最后一个数据
     BehaviorSubject<List<Item>> cache;
 
     private MeiziData() {
