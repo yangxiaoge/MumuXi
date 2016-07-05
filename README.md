@@ -4,6 +4,12 @@
 
 项目详细 注解 以及功能在提交message和代码注解中
 
+
+## 下载
+[Fir](http://fir.im/sq2t)
+
+<a href="http://www.wandoujia.com/apps/com.yang.bruce.mumuxi" target="_blank" alt="Google Paly"><img src="http://ww1.sinaimg.cn/mw690/c05ae6b6gw1f5iyz0qbdgj204k01mglg.jpg"/></a>
+
 主要实现功能:
 - 知乎专栏-作者文章-文章detail
 - 妹子福利
