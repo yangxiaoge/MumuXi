@@ -1,5 +1,7 @@
 # 妹子 & 知乎专栏
 
+我在[个人博客](http://yangjianan.top/2015/05/23/MumuXi%E5%AE%89%E5%8D%93%E7%89%88%E5%BC%80%E5%8F%91/)对APP做了总结
+
 > 参考: [wuchangfeng](https://github.com/wuchangfeng/ZhuanLan) https://github.com/wuchangfeng/ZhuanLan
 
 项目详细 注解 以及功能在提交message和代码注解中
