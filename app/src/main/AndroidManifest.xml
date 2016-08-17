@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.yang.bruce.mumuxi">
+          package="com.yang.bruce.mumuxi">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <!-- 必选 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+
 
     <application
         android:name=".MumuXiApp"
@@ -14,18 +18,23 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <meta-data
+            android:name="BUG_HD_SDK_GENERAL_KEY"
+            android:value="2bf9aca13a8d01171c4e76feaa8e0b1b"/>
+
         <activity android:name=".view.activity.MainActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".view.activity.AboutActivity" />
-        <activity android:name=".view.activity.AboutMeActivity" />
-        <activity android:name=".view.activity.GirlActivity" />
-        <activity android:name=".view.activity.ZhuanLanDetailActivity" />
-        <activity android:name=".view.activity.ArticleDetailActivity" />
+        <activity android:name=".view.activity.AboutActivity"/>
+        <activity android:name=".view.activity.AboutMeActivity"/>
+        <activity android:name=".view.activity.GirlActivity"/>
+        <activity android:name=".view.activity.ZhuanLanDetailActivity"/>
+        <activity android:name=".view.activity.ArticleDetailActivity"/>
 
 
         <!-- begin umeng -->
@@ -34,7 +43,7 @@
             android:value="5774e07c67e58e2f4900197b"/>
         <meta-data
             android:name="UMENG_CHANNEL"
-            android:value="${UMENG_CHANNEL_VALUE}" />
+            android:value="${UMENG_CHANNEL_VALUE}"/>
     </application>
 
 </manifest>

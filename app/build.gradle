@@ -129,4 +129,5 @@ dependencies {
     // 懒人框架
     compile rootProject.ext.dependencies["butterknife"]
 
+    compile 'im.fir:fir-sdk:latest.integration@aar'
 }

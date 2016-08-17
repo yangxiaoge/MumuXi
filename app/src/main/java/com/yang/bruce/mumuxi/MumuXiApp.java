@@ -2,6 +2,8 @@ package com.yang.bruce.mumuxi;
 
 import android.app.Application;
 
+import im.fir.sdk.FIR;
+
 /**
  * Author: 0027008122 [yang.jianan@zte.com.cn]
  * Time: 2016-06-27 13:56
@@ -22,5 +24,6 @@ public class MumuXiApp extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
+        FIR.init(this);
     }
 }
