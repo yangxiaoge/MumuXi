@@ -1,8 +1,18 @@
 # 妹子 & 知乎专栏
 
+我在[个人博客](http://yangjianan.top/2015/05/23/MumuXi%E5%AE%89%E5%8D%93%E7%89%88%E5%BC%80%E5%8F%91/)对APP做了总结
+
 > 参考: [wuchangfeng](https://github.com/wuchangfeng/ZhuanLan) https://github.com/wuchangfeng/ZhuanLan
 
 项目详细 注解 以及功能在提交message和代码注解中
+
+
+## 下载
+[Fir](http://fir.im/sq2t)
+
+<a href="http://android.myapp.com/myapp/detail.htm?apkName=com.yang.bruce.mumuxi" target="_blank" alt="应用宝"><img src="http://ww4.sinaimg.cn/mw1024/c05ae6b6gw1f5pv5t3kwwj203w01jglf.jpg"/></a>
+
+<a href="http://www.wandoujia.com/apps/com.yang.bruce.mumuxi" target="_blank" alt="豌豆荚"><img src="http://ww1.sinaimg.cn/mw690/c05ae6b6gw1f5iyz0qbdgj204k01mglg.jpg"/></a>
 
 主要实现功能:
 - 知乎专栏-作者文章-文章detail
