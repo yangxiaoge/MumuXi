@@ -1,0 +1,38 @@
+{
+  "project_info": {
+    "project_number": "689731627383",
+    "project_id": "firebase-mumuxi"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:689731627383:android:6b84446d8adb36b8",
+        "android_client_info": {
+          "package_name": "com.yang.bruce.mumuxi"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDWOCagnpTIIO_eOYqlxaljNpQkvIwYDrE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 2,
+          "analytics_property": {
+            "tracking_id": "UA-83624565-1"
+          }
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

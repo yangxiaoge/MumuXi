@@ -1,16 +1,22 @@
 package com.yang.bruce.mumuxi.base;
 
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
+import com.yang.bruce.mumuxi.MumuXiApp;
 import com.yang.bruce.mumuxi.R;
 import com.yang.bruce.mumuxi.util.NetWorkUtil;
 import com.yang.bruce.mumuxi.view.activity.AboutActivity;
@@ -25,10 +31,21 @@ import com.yang.bruce.mumuxi.view.activity.AboutMeActivity;
  */
 public class BaseActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener
         , RecyclerArrayAdapter.OnLoadMoreListener {
+    private Tracker mTracker;
 
     public void initViews() {
 
     }
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // [START shared_tracker]
+        // Obtain the shared Tracker instance.
+        mTracker = MumuXiApp.getInstance().getDefaultTracker();
+        // [END shared_tracker]
+    }
+
     // Judge network is ok
     public void isNetWorkOk(View view) {
 
@@ -44,6 +61,7 @@ public class BaseActivity extends AppCompatActivity implements SwipeRefreshLayou
 
         }
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -55,10 +73,25 @@ public class BaseActivity extends AppCompatActivity implements SwipeRefreshLayou
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_about_me:
+                Log.i("BaseActivity", "tootlbar name " + "About Me");
+                // [START custom_event]
+                mTracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("Info")
+                        .setAction("About Me")
+                        .build());
+                // [END custom_event]
+
                 Intent intent = new Intent(getApplicationContext(), AboutMeActivity.class);
                 startActivity(intent);
                 break;
             case R.id.what_to_do:
+                Log.i("BaseActivity", "tootlbar name " + "For What?");
+                // [START custom_event]
+                mTracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("Action")
+                        .setAction("For What?")
+                        .build());
+                // [END custom_event]
                 new MaterialDialog.Builder(this)
                         .title("What to do")
                         .items(R.array.what_to_do)
@@ -71,6 +104,13 @@ public class BaseActivity extends AppCompatActivity implements SwipeRefreshLayou
                         .show(); // 不要忘记show!!!
                 break;
             case R.id.about:
+                Log.i("BaseActivity", "tootlbar name " + "About APP");
+                // [START custom_event]
+                mTracker.send(new HitBuilders.EventBuilder()
+                        .setCategory("Info")
+                        .setAction("About APP")
+                        .build());
+                // [END custom_event]
                 Intent intent2 = new Intent(getApplicationContext(), AboutActivity.class);
                 startActivity(intent2);
                 break;

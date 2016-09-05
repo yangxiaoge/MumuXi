@@ -23,3 +23,8 @@
 - 所有的[loading动画](https://github.com/zzz40500/android-shapeLoadingView)用的是开源框架- 布局放在了EasyRecyclerView的 [layout_empty](https://github.com/yangxiaoge/MumuXi/blob/master/app/src/main/res/layout/fragment_zhuanlan_layout.xml) ,layout_progress,error中,具体根据实际来放
 - 上拉,下拉刷新用的开源框架[EasyRecyclerView](https://github.com/Jude95/EasyRecyclerView)
 -侧滑Drawer功能还没加,后面考虑加些其他功能~~~
+
+add google analytics ( 2016-9-5 14:09:40 )
+1. `google-services.json`[文件下载](https://developers.google.com/mobile/add?platform=android&cntapi=analytics&cnturl=https:%2F%2Fdevelopers.google.com%2Fanalytics%2Fdevguides%2Fcollection%2Fandroid%2Fv4%2Fapp%3Fconfigured%3Dtrue&cntlbl=Continue%20Adding%20Analytics)
+2. 官方集成文档: https://developers.google.com/analytics/devguides/collection/android/v4/app?configured=true
+3. 分析用户使用情况的平台: https://analytics.google.com/analytics/web/#realtime/rt-app-overview/a83624565w124744507p129062318/
