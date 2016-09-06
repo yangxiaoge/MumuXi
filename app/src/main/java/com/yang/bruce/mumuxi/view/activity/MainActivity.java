@@ -9,12 +9,9 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
 import com.yang.bruce.mumuxi.MumuXiApp;
 import com.yang.bruce.mumuxi.R;
 import com.yang.bruce.mumuxi.base.BaseActivity;
@@ -24,10 +21,6 @@ import com.yang.bruce.mumuxi.view.fragment.ZhiHuFragment;
 import java.util.List;
 
 public class MainActivity extends BaseActivity {
-    /**
-     * The {@link Tracker} used to record screen views.
-     */
-    private Tracker mTracker;
 
     private static final String TAG = "MainActivity";
     private TabLayout mTabLayout;
@@ -39,27 +32,11 @@ public class MainActivity extends BaseActivity {
 
     private long exitTime = 0; // 返回键 退出时间
 
-    /**
-     * Record a screen view hit for the visible {@link } displayed
-     */
-    private void sendSelectedScreenName(String name) {
-
-        // [START screen_view_hit]
-        Log.i(TAG, "current viewpager name: " + name);
-        mTracker.setScreenName("fragment~" + name);
-        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
-        // [END screen_view_hit]
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        // [START shared_tracker]
-        // Obtain the shared Tracker instance.
-        mTracker = MumuXiApp.getInstance().getDefaultTracker();
-        // [END shared_tracker]
 
         initViews();
         switchFragment();
@@ -116,13 +93,13 @@ public class MainActivity extends BaseActivity {
             public CharSequence getPageTitle(int position) {
                 switch (position) {
                     case 0:
-                        sendSelectedScreenName(titles[0]);
+                        MumuXiApp.getInstance().sendSelectedScreenName(titles[0]);
                         return titles[0];
                     case 1:
-                        sendSelectedScreenName(titles[1]);
+                        MumuXiApp.getInstance().sendSelectedScreenName(titles[1]);
                         return titles[1];
                     default:
-                        sendSelectedScreenName(titles[0]);
+                        MumuXiApp.getInstance().sendSelectedScreenName(titles[0]);
                         return titles[0];
                 }
             }

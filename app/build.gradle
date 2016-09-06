@@ -37,7 +37,7 @@ android {
     }
 
     buildTypes {
-        /*debug {
+        debug {
             // 显示Log
             buildConfigField "boolean", "LOG_DEBUG", "true"
 
@@ -46,9 +46,9 @@ android {
             zipAlignEnabled false
             shrinkResources false
             signingConfig signingConfigs.debug
-        }*/
+        }
 
-        release {
+      /*  release {
             // 不显示Log
             buildConfigField "boolean", "LOG_DEBUG", "false"
             //混淆代码的功能
@@ -81,7 +81,7 @@ android {
                     }
                 }
             }
-        }
+        }*/
     }
 
     // 友盟多渠道打包 这种写法参考 : http://www.jianshu.com/p/a9ccdf67ca6c 和 http://stormzhang.com/devtools/2015/01/15/android-studio-tutorial6/
