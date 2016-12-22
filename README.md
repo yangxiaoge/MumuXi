@@ -8,7 +8,7 @@
 
 
 ## 下载
-<a href="http://fir.im/sq2t" target="_blank" alt="Fir"><img src="http://ww4.sinaimg.cn/mw1024/c05ae6b6gw1f802wvh1s2j203301cq2q.jpg"/></a>
+<a href="http://fir.im/mumuxi" target="_blank" alt="Fir"><img src="http://ww4.sinaimg.cn/mw1024/c05ae6b6gw1f802wvh1s2j203301cq2q.jpg"/></a>
 
 <a href="http://android.myapp.com/myapp/detail.htm?apkName=com.yang.bruce.mumuxi" target="_blank" alt="应用宝"><img src="http://ww4.sinaimg.cn/mw1024/c05ae6b6gw1f5pv5t3kwwj203w01jglf.jpg"/></a>
 
