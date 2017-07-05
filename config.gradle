@@ -8,7 +8,7 @@ ext {
                buildToolsVersion: "24.0.0",
                applicationId    : "com.yang.bruce.mumuxi",
                minSdkVersion    : 21,
-               targetSdkVersion : 24,
+               targetSdkVersion : 24, //如果是24+，那么需要配置FileProvider， https://stackoverflow.com/questions/38200282/android-os-fileuriexposedexception-file-storage-emulated-0-test-txt-exposed/40674771#40674771
                versionCode      : 1023,
                versionName      : "2.1.0"]
 

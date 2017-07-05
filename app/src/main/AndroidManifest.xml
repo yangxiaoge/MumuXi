@@ -23,6 +23,16 @@
             android:name="BUG_HD_SDK_GENERAL_KEY"
             android:value="2bf9aca13a8d01171c4e76feaa8e0b1b" />
 
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.yang.bruce.mumuxi.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths"/>
+        </provider>
+
         <activity
             android:name=".view.activity.MainActivity"
             android:screenOrientation="portrait">

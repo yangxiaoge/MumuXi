@@ -43,7 +43,7 @@ public class MeiziData {
     public void loadFromNetwork(final int page) {
         Log.e(TAG, page + "");
         NetWorkBean.getGankApi()
-                .getBeauties(10, page)
+                .getBeauties(20, page)
                 .subscribeOn(Schedulers.io())
                 // Observable 返回的类型 GankBeautyResult Map 转换成 List<Map>
                 .map(new Func1<Girl, List<Item>>() {

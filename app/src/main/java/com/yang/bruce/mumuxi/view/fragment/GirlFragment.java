@@ -154,6 +154,7 @@ public class GirlFragment extends BaseFragment {
                 intent.putExtra("url", adapter.getItem(position).imageUrl);
                 intent.putExtra("publishedAt", adapter.getItem(position).publishedAt);
                 intent.putExtra("code", position);
+                //Toast.makeText(getActivity(),"position = "+position,Toast.LENGTH_SHORT).show();
                 if (isNoItem.size() > 0) {
                     ArrayList<String> urls = new ArrayList<String>();
                     for (Item item : isNoItem) {

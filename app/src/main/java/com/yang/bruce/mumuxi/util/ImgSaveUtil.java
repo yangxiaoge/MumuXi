@@ -3,14 +3,15 @@ package com.yang.bruce.mumuxi.util;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.FileProvider;
 import android.view.View;
-import android.widget.ImageView;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -20,19 +21,20 @@ import java.io.IOException;
  * Here reference is https://github.com/gaolonglong/GankGirl/blob/master/app/src/main/java/com/app/gaolonglong/gankgirl/util/ImageUtil.java
  */
 public class ImgSaveUtil {
-
+    private static final String catalogName = "Mumuxi";
     /**
      * 保存 图片
+     *
      * @param context
      * @param url
      * @param bitmap
-     * @param imageView
+     * @param view
      * @param tag
      * @return
      */
-    public static Uri saveImage(Context context, String url, Bitmap bitmap, View imageView, String tag) {
+    public static Uri saveImage(Context context, String url, Bitmap bitmap, View view, String tag) {
         //创建文件路径
-        File appDir = new File(Environment.getExternalStorageDirectory(), "Mumuxi相册");
+        File appDir = new File(Environment.getExternalStorageDirectory(), catalogName);
         if (!appDir.exists()) {
             appDir.mkdir();
         }
@@ -45,9 +47,15 @@ public class ImgSaveUtil {
         try {
             FileOutputStream out = new FileOutputStream(imageFile);
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
-            Snackbar.make(imageView, "妹纸已经躺在你的图库里啦.. ( ＞ω＜)", Snackbar.LENGTH_SHORT).show();
             out.flush();
             out.close();
+            SnackbarUtils
+                    .with(view)
+                    .setMessage("妹纸已经躺在你的图库里啦~")
+                    .setMessageColor(Color.BLUE)
+                    .setBgColor(Color.TRANSPARENT)
+                    .setDuration(SnackbarUtils.LENGTH_SHORT)
+                    .show();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -60,31 +68,39 @@ public class ImgSaveUtil {
 
     /**
      * 分享图片
+     *
      * @param context
      * @param resource
      */
-    public static void shareImage(Context context, Bitmap resource){
-        Uri uri = createUri(resource);
+    public static void shareImage(Context context, Bitmap resource) {
+        Uri uri = createUri(resource, context);
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_SEND);
-        intent.setType("image/jpeg");
         intent.putExtra(Intent.EXTRA_STREAM, uri);
+        intent.setType("image/jpeg");
         context.startActivity(Intent.createChooser(intent, "分享到..."));
     }
 
-    private static Uri createUri(Bitmap bitmap) {
-        File file = new File(Environment.getExternalStorageDirectory(), "Mumuxi相册");
+    private static Uri createUri(Bitmap bitmap, Context context) {
+        File file = new File(Environment.getExternalStorageDirectory(), catalogName);
         if (!file.exists())
             file.mkdirs();
-        File image = new File(file.getPath(), "share.jpg");
+        File imageFile = new File(file.getPath(), "share.jpg");
         try {
-            if (!image.exists()) {
-                image.createNewFile();
+            if (!imageFile.exists()) {
+                imageFile.createNewFile();
             }
-            FileOutputStream out = new FileOutputStream(image);
+            FileOutputStream out = new FileOutputStream(imageFile);
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
-            String filePath = "file:" + image.getAbsolutePath();
-            return Uri.parse(filePath);
+            String filePath = "file:" + imageFile.getAbsolutePath();
+            Uri uri = null;
+            // Android 7.0开始，临时授权访问的路径通过FileProvider获取
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                uri = FileProvider.getUriForFile(context, "com.yang.bruce.mumuxi.provider", imageFile);
+            } else {
+                uri = Uri.fromFile(imageFile);
+            }
+            return uri;
         } catch (IOException e) {
             e.printStackTrace();
             return null;

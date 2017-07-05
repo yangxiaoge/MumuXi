@@ -113,8 +113,9 @@ public class GirlActivity extends BaseActivity {
         desc = intent.getStringExtra("desc");
         url = intent.getStringExtra("url");
         urls = intent.getStringArrayListExtra("urls");
-        code = intent.getIntExtra("code", 1);
+        code = intent.getIntExtra("code", 0);
 
+        //Toast.makeText(this,"urls = "+urls.size()+" code = "+code,Toast.LENGTH_SHORT).show();
     }
 
     // initial views
