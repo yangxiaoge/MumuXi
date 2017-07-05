@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'me.tatarka.retrolambda'
 
 def releaseTime() {
     //返回发布的 北京时间
@@ -95,6 +96,11 @@ android {
     }
     // 友盟多渠道打包 end
 
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    buildToolsVersion '25.0.0'
 }
 
 dependencies {
@@ -132,4 +138,5 @@ dependencies {
 
     compile 'im.fir:fir-sdk:latest.integration@aar'
     compile 'com.google.android.gms:play-services-analytics:8.3.0'
+    compile 'com.tbruyelle.rxpermissions:rxpermissions:0.9.4@aar'
 }

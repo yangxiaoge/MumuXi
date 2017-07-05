@@ -153,6 +153,14 @@ public class GirlFragment extends BaseFragment {
                 intent.putExtra("desc", adapter.getItem(position).description);
                 intent.putExtra("url", adapter.getItem(position).imageUrl);
                 intent.putExtra("publishedAt", adapter.getItem(position).publishedAt);
+                intent.putExtra("code", position);
+                if (isNoItem.size() > 0) {
+                    ArrayList<String> urls = new ArrayList<String>();
+                    for (Item item : isNoItem) {
+                        urls.add(item.imageUrl);
+                    }
+                    intent.putStringArrayListExtra("urls", urls);
+                }
                 startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(getActivity()).toBundle());
             }
         });
