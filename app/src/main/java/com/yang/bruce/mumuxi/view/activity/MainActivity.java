@@ -41,7 +41,7 @@ public class MainActivity extends BaseActivity {
         initViews();
         switchFragment();
 
-        和黑
+        和黑 a a
         // 判断是否有网
         isNetWorkOk(collapsingToolbarLayout);
     }
