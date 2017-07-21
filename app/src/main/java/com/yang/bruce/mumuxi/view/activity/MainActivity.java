@@ -1,6 +1,9 @@
 package com.yang.bruce.mumuxi.view.activity;
 
 import android.app.Fragment;
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TabLayout;
@@ -41,9 +44,12 @@ public class MainActivity extends BaseActivity {
         initViews();
         switchFragment();
 
-        和黑 a a
         // 判断是否有网
         isNetWorkOk(collapsingToolbarLayout);
+
+        //通过包名启动QQ
+        /*Intent intent = getPackageManager().getLaunchIntentForPackage("com.tencent.mobileqq");
+        startActivity(intent);*/
     }
 
     @Override
