@@ -136,7 +136,8 @@ dependencies {
     // 懒人框架
     compile rootProject.ext.dependencies["butterknife"]
 
-    compile 'im.fir:fir-sdk:latest.integration@aar'
+    compile 'com.tencent.bugly:crashreport:latest.release' //其中latest.release指代最新Bugly SDK版本号，也可以指定明确的版本号，例如2.2.0
+//    compile 'im.fir:fir-sdk:latest.integration@aar'
     compile 'com.google.android.gms:play-services-analytics:8.3.0'
     compile 'com.tbruyelle.rxpermissions:rxpermissions:0.9.4@aar'
 }

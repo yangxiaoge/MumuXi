@@ -6,8 +6,7 @@ import android.util.Log;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
-
-import im.fir.sdk.FIR;
+import com.tencent.bugly.crashreport.CrashReport;
 
 /**
  * Author: 0027008122 [yang.jianan@zte.com.cn]
@@ -30,7 +29,23 @@ public class MumuXiApp extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
-        FIR.init(this);
+//        FIR.init(this);
+
+        /*
+
+        *https://bugly.qq.com/docs/user-guide/instruction-manual-android/?v=20170815114059#_4
+        * 为了保证运营数据的准确性，建议不要在异步线程初始化Bugly。
+         第三个参数为 SDK 调试模式开关，调试模式的行为特性如下：
+
+         输出详细的 Bugly SDK 的 Log；
+         每一条 Crash 都会被立即上报；
+         自定义日志将会在 Logcat 中输出。
+         建议在测试阶段建议设置成 true，发布时设置为 false。
+         */
+        CrashReport.initCrashReport(getApplicationContext(), "f1b8f07168", BuildConfig.DEBUG);
+
+        //测试， 直接崩溃
+        //CrashReport.testJavaCrash();
         mTracker = getDefaultTracker();
     }
 
