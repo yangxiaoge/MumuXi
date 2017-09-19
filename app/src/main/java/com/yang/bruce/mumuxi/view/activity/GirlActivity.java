@@ -3,14 +3,17 @@ package com.yang.bruce.mumuxi.view.activity;
 import android.Manifest;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.PointF;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.transition.Explode;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -34,6 +37,8 @@ import com.yang.bruce.mumuxi.widget.HackyViewPager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -294,5 +299,69 @@ public class GirlActivity extends BaseActivity {
         public boolean isViewFromObject(View view, Object object) {
             return view == object;
         }
+    }
+
+    //以下是 点击事件，点击图片关闭 Activity
+    private Timer mDialogTimer = null;
+    private TimerTask mDialogTask = null;
+    public static Timer mIsFinishTimer = null;
+    public static TimerTask mIsFinshTimerTask = null;
+    private boolean touchCount = true;
+    private PointF oldPoint = new PointF();
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        Log.d("down-time:",
+                String.valueOf(ev.getEventTime() - ev.getDownTime()));
+        final PointF newPoint = new PointF(ev.getX(), ev.getY());
+        float moveX = Math.abs(newPoint.x - oldPoint.x);
+        float moveY = Math.abs(newPoint.y - oldPoint.y);
+        if (ev.getPointerCount() > 1 || moveX > 10 || moveY > 10) {
+            touchCount = false;
+            if (mIsFinishTimer != null && mIsFinshTimerTask != null) {
+                mIsFinishTimer.cancel();
+                mIsFinishTimer = null;
+                mIsFinshTimerTask.cancel();
+                mIsFinshTimerTask = null;
+            }
+            if (mDialogTask != null && mDialogTimer != null) {
+                mDialogTask.cancel();
+                mDialogTask = null;
+                mDialogTimer.cancel();
+                mDialogTimer = null;
+            }
+        }
+        if (ev.getAction() == MotionEvent.ACTION_UP) {
+            if (mDialogTask != null && mDialogTimer != null) {
+                mDialogTask.cancel();
+                mDialogTask = null;
+                mDialogTimer.cancel();
+                mDialogTimer = null;
+            }
+            if (!(moveX > 10 || moveY > 10)) {
+                if (mIsFinishTimer == null && touchCount) {
+                    mIsFinishTimer = new Timer();
+                    mIsFinshTimerTask = new TimerTask() {
+                        @Override
+                        public void run() {
+                            finish();
+                        }
+                    };
+                    mIsFinishTimer.schedule(mIsFinshTimerTask, 400);
+                }
+            }
+        }
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+            touchCount = true;
+            mDialogTimer = new Timer();
+            mDialogTask = new TimerTask() {
+                @Override
+                public void run() {
+                }
+            };
+            mDialogTimer.schedule(mDialogTask, 500);
+            // downX = ev.getX();
+            oldPoint.set(ev.getX(), ev.getY());
+        }
+        return super.dispatchTouchEvent(ev);
     }
 }

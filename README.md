@@ -28,3 +28,9 @@
 2. 官方集成文档: https://developers.google.com/analytics/devguides/collection/android/v4/app?configured=true
 3. 分析用户使用情况的平台: https://analytics.google.com/analytics/web/#realtime/rt-app-overview/a83624565w124744507p129062318/
 4. ![google 分析](http://ww2.sinaimg.cn/mw1024/c05ae6b6gw1f7iknnth8nj217y0lx43d.jpg)
+
+## 签名文件
+**yangxiaoge.jks**
+1. keystore 密码：bruce123456
+2. keystore 别名：bruce
+3. 别名密码：bruce123456

@@ -102,7 +102,7 @@ public class GirlFragment extends BaseFragment {
         // RecyclerView 刷新监听
         mRecyclerView.setRefreshListener(this);
         // load data while init , 初始化是加载数据
-        getGirlData(page);
+        onRefresh(); //初始化时，获取第一页的妹子图片
     }
 
     /**
@@ -180,6 +180,7 @@ public class GirlFragment extends BaseFragment {
                  */
                 page = 1;
                 // before refresh clean cache (1、清除适配器数据 2、clearMemoryAndDiskCache 清除磁盘缓存(删除文件data.db)  )
+                isNoItem.clear();
                 girlAdapter.clear();
                 MeiziData.getInstance().clearMemoryAndDiskCache();
 

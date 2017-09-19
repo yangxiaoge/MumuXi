@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 
 import com.yang.bruce.mumuxi.R;
 import com.yang.bruce.mumuxi.base.BaseActivity;
@@ -28,6 +29,15 @@ public class AboutActivity extends BaseActivity {
         CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         collapsingToolbarLayout.setTitle("关于");
 
-        DialogUtil.showAbout(this,"关于");
+        collapsingToolbarLayout.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                DialogUtil.showAbout(AboutActivity.this,"关于");
+            }
+        },1000);
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return false;
     }
 }
