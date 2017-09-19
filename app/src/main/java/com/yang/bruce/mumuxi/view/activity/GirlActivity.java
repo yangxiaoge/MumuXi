@@ -76,9 +76,9 @@ public class GirlActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        beforeInitVis();
         super.onCreate(savedInstanceState);
         hideSystemUI();
-        beforeInitVis();
         setContentView(R.layout.girl_detail_activity_layout);
         ButterKnife.bind(this);
         getDatas();
