@@ -140,4 +140,8 @@ dependencies {
 //    compile 'im.fir:fir-sdk:latest.integration@aar'
     compile 'com.google.android.gms:play-services-analytics:8.3.0'
     compile 'com.tbruyelle.rxpermissions:rxpermissions:0.9.4@aar'
+
+    debugCompile 'com.amitshekhar.android:debug-db:1.0.1' //https://github.com/amitshekhariitbhu/Android-Debug-Database  用于调试 android 数据库 和 sharedpreferences
+
+    compile 'com.jakewharton.scalpel:scalpel:1.1.2' //Jake Wharton 开发的一个非常创新的开源工具，以 3d 视角浏览整个 app 的布局情况。
 }

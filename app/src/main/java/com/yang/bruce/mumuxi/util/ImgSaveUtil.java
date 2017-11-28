@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
-import android.support.design.widget.Snackbar;
 import android.support.v4.content.FileProvider;
 import android.view.View;
 
@@ -52,7 +51,7 @@ public class ImgSaveUtil {
             SnackbarUtils
                     .with(view)
                     .setMessage("妹纸已经躺在你的图库里啦~")
-                    .setMessageColor(Color.BLUE)
+                    .setMessageColor(Color.RED)
                     .setBgColor(Color.TRANSPARENT)
                     .setDuration(SnackbarUtils.LENGTH_SHORT)
                     .show();

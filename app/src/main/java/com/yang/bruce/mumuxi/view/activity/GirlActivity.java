@@ -73,6 +73,7 @@ public class GirlActivity extends BaseActivity {
     ImageView saveImg;
     @Bind(R.id.photo_share)
     ImageView shareImg;
+    boolean saveAndShareClicked = false; //保存妹子，分享妹子按钮是否被点击过？
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -161,6 +162,7 @@ public class GirlActivity extends BaseActivity {
         //保存妹子图片
         saveImg.setOnClickListener(
                 (View view) -> {
+                    saveAndShareClicked = true;
                     //首先动态授权
                     RxPermissions rxPermissions = new RxPermissions(GirlActivity.this);
                     rxPermissions
@@ -182,6 +184,7 @@ public class GirlActivity extends BaseActivity {
         //分享妹子图片
         shareImg.setOnClickListener(
                 (View view) -> {
+                    saveAndShareClicked = true;
                     //首先动态授权
                     RxPermissions rxPermissions = new RxPermissions(GirlActivity.this);
                     rxPermissions
@@ -308,6 +311,7 @@ public class GirlActivity extends BaseActivity {
     public static TimerTask mIsFinshTimerTask = null;
     private boolean touchCount = true;
     private PointF oldPoint = new PointF();
+
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         Log.d("down-time:",
@@ -343,7 +347,11 @@ public class GirlActivity extends BaseActivity {
                     mIsFinshTimerTask = new TimerTask() {
                         @Override
                         public void run() {
-                            finish();
+                            if (saveAndShareClicked) {
+                                saveAndShareClicked = false;
+                            } else {
+                                finish();
+                            }
                         }
                     };
                     mIsFinishTimer.schedule(mIsFinshTimerTask, 400);
