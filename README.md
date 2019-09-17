@@ -6,6 +6,8 @@
 
 项目详细 注解 以及功能在提交message和代码注解中
 
+## MUmuXi Flutter 重构版
+https://github.com/yangxiaoge/wanandroid_flutter
 
 ## 下载
 <a href="http://fir.im/mumuxi" target="_blank" alt="Fir"><img src="http://ww4.sinaimg.cn/mw1024/c05ae6b6gw1f802wvh1s2j203301cq2q.jpg"/></a>
